@@ -11,7 +11,6 @@ canvas.height = innerHeight
 const x = canvas.width / 2
 const y = canvas.height / 2
 
-const player = new Player(x, y, 10, 'white')
 const players = {}
 
 socket.on('updatePlayers', (backendPlayers) => {
@@ -19,6 +18,21 @@ socket.on('updatePlayers', (backendPlayers) => {
     const backendPlayer = backendPlayers[id]
     if (!players[id]) {
       players[id] = new Player(backendPlayer.x, backendPlayer.y, 10, 'white')
+    }
+  }
+})
+
+socket.on('updatePlayers', (backendPlayers) => {
+  for (const id in backendPlayers) {
+    const backendPlayer = backendPlayers[id]
+    if (!players[id]) {
+      players[id] = new Player(backendPlayer.x, backendPlayer.y, 10, 'white')
+    }
+  }
+
+  for (const id in players) {
+    if (!backendPlayers[id]) {
+      delete players[id]
     }
   }
 })
