@@ -17,19 +17,17 @@ app.get('/', (req, res) => {
 const players = {}
 
 io.on('connection', (socket) => {
-  console.log('a user connected');
   players[socket.id] = {
     x: 500*Math.random(),
     y: 500*Math.random(),
+    color: `hsl(${Math.random()*360}, 100%, 50%)`
   }
 
   io.emit('updatePlayers', players);
-  console.log(players);
 
   socket.on('disconnect', (reason) => {
     delete players[socket.id]
     io.emit('updatePlayers', players);
-    console.log(reason);
   });
 });
 
