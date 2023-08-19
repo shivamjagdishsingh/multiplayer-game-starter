@@ -17,6 +17,7 @@ const frontEndPlayers = {}
 socket.on('updatePlayers', (backEndPlayers) => {
   for (const id in backEndPlayers) {
     const backEndPlayer = backEndPlayers[id]
+
     if (!frontEndPlayers[id]) {
       frontEndPlayers[id] = new Player({
         x: backEndPlayer.x,
@@ -24,6 +25,9 @@ socket.on('updatePlayers', (backEndPlayers) => {
         radius: 10,
         color: backEndPlayer.color
       })
+    } else {
+      frontEndPlayers[id].x = backEndPlayer.x
+      frontEndPlayers[id].y = backEndPlayer.y
     }
   }
 
@@ -33,6 +37,13 @@ socket.on('updatePlayers', (backEndPlayers) => {
     }
   }
 })
+
+
+window.addEventListener('keydown', (event) => {
+  if (!frontEndPlayers[socket.id]) return;
+  socket.emit('keydown', event.code)
+})
+
 
 let animationId
 function animate() {
