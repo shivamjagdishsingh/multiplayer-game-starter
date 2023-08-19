@@ -17,6 +17,7 @@ app.get('/', (req, res) => {
 })
 const backEndPlayers = {}
 
+SPEED = 10
 io.on('connection', (socket) => {
   backEndPlayers[socket.id] = {
     x: 500*Math.random(),
@@ -34,19 +35,19 @@ io.on('connection', (socket) => {
   socket.on('keydown', (keycode) => {
     switch (keycode) {
       case 'KeyW':
-        backEndPlayers[socket.id].y -= 5
+        backEndPlayers[socket.id].y -= SPEED
         break
 
       case 'KeyA':
-        backEndPlayers[socket.id].x -= 5
+        backEndPlayers[socket.id].x -= SPEED
         break
 
       case 'KeyS':
-        backEndPlayers[socket.id].y += 5
+        backEndPlayers[socket.id].y += SPEED
         break
 
       case 'KeyD':
-        backEndPlayers[socket.id].x += 5
+        backEndPlayers[socket.id].x += SPEED
         break
       }
   });
